@@ -1,14 +1,16 @@
 import type { WatchQueryOptions } from "@apollo/client/core";
 import type { DocumentNode } from "graphql";
+import type { TypedDocumentNode } from "@graphql-typed-document-node/core";
+import type { ReadableQuery } from "./observable";
+
 import { getClient } from "./context";
 import { DataState, observableQueryToReadable } from "./observable";
-import type { ReadableQuery } from "./observable";
 import { restoring } from "./restore";
 
 export function query<TData = unknown, TVariables = unknown>(
-	query: DocumentNode,
+	query: DocumentNode | TypedDocumentNode<TData, TVariables>,
 	options: Omit<WatchQueryOptions<TVariables, TData>, "query"> = {}
-): ReadableQuery<TData> {
+): ReadableQuery<TData, TVariables> {
 	const client = getClient();
 	const queryOptions = { ...options, query } as WatchQueryOptions<
 		TVariables,
@@ -20,7 +22,7 @@ export function query<TData = unknown, TVariables = unknown>(
 	if (restoring.has(client)) {
 		try {
 			// undefined = skip initial value (not in cache)
-			initialValue = client.readQuery(queryOptions) || undefined;
+			initialValue = (client.readQuery(queryOptions) as TData) || undefined;
 		} catch (err) {
 			// Ignore preload errors
 		}

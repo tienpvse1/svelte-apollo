@@ -1,16 +1,17 @@
 {
 	"name": "@svelte-apollo/workspace",
 	"private": true,
-	"version": "0.0.0",
-	"author": "Tim Hall <tim.hall.engr@gmail.com>",
+	"version": "0.0.1",
+	"author": "Tien Phan <good66612@gmail.com>",
 	"license": "MIT",
-	"repository": "https://github.com/timhall/svelte-apollo.git",
+	"repository": "https://github.com/tienpvse1/svelte-apollo",
 	"scripts": {
 		"build": "pnpm run build --filter svelte-apollo",
 		"test": "jest"
 	},
 	"devDependencies": {
 		"@changesets/cli": "^2.21.0",
+		"@graphql-typed-document-node/core": "^3.2.0",
 		"jest": "^27.5.1"
 	}
 }

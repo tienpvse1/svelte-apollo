@@ -79,22 +79,22 @@ export function observableToReadable<TData = unknown>(
 // For live queries, ObservableQuery is used, adding methods like refetch
 // extend readable with these methods
 
-export interface ObservableQueryExtensions<TData = unknown> {
-	fetchMore: ObservableQuery<TData>["fetchMore"];
-	getCurrentResult: ObservableQuery<TData>["getCurrentResult"];
-	getLastError: ObservableQuery<TData>["getLastError"];
-	getLastResult: ObservableQuery<TData>["getLastResult"];
-	isDifferentFromLastResult: ObservableQuery<TData>["isDifferentFromLastResult"];
-	refetch: ObservableQuery<TData>["refetch"];
-	resetLastResults: ObservableQuery<TData>["resetLastResults"];
-	resetQueryStoreErrors: ObservableQuery<TData>["resetQueryStoreErrors"];
-	result: ObservableQuery<TData>["result"];
-	setOptions: ObservableQuery<TData>["setOptions"];
-	setVariables: ObservableQuery<TData>["setVariables"];
-	startPolling: ObservableQuery<TData>["startPolling"];
-	stopPolling: ObservableQuery<TData>["stopPolling"];
-	subscribeToMore: ObservableQuery<TData>["subscribeToMore"];
-	updateQuery: ObservableQuery<TData>["updateQuery"];
+export interface ObservableQueryExtensions<TData = unknown, TVariables = unknown> {
+	fetchMore: ObservableQuery<TData, TVariables>["fetchMore"];
+	getCurrentResult: ObservableQuery<TData, TVariables>["getCurrentResult"];
+	getLastError: ObservableQuery<TData, TVariables>["getLastError"];
+	getLastResult: ObservableQuery<TData, TVariables>["getLastResult"];
+	isDifferentFromLastResult: ObservableQuery<TData, TVariables>["isDifferentFromLastResult"];
+	refetch: ObservableQuery<TData, TVariables>["refetch"];
+	resetLastResults: ObservableQuery<TData, TVariables>["resetLastResults"];
+	resetQueryStoreErrors: ObservableQuery<TData, TVariables>["resetQueryStoreErrors"];
+	result: ObservableQuery<TData, TVariables>["result"];
+	setOptions: ObservableQuery<TData, TVariables>["setOptions"];
+	setVariables: ObservableQuery<TData, TVariables>["setVariables"];
+	startPolling: ObservableQuery<TData, TVariables>["startPolling"];
+	stopPolling: ObservableQuery<TData, TVariables>["stopPolling"];
+	subscribeToMore: ObservableQuery<TData, TVariables>["subscribeToMore"];
+	updateQuery: ObservableQuery<TData, TVariables>["updateQuery"];
 }
 
 export const extensions: Array<keyof ObservableQueryExtensions> = [
@@ -115,8 +115,8 @@ export const extensions: Array<keyof ObservableQueryExtensions> = [
 	"updateQuery",
 ];
 
-export type ReadableQuery<TData> = ReadableResult<TData> &
-	ObservableQueryExtensions<TData>;
+export type ReadableQuery<TData, TVariables> = ReadableResult<TData> &
+	ObservableQueryExtensions<TData, TVariables>;
 
 export function observableQueryToReadable<
 	TData = unknown,
@@ -124,11 +124,11 @@ export function observableQueryToReadable<
 >(
 	query: ObservableQuery<TData, TVariables>,
 	initialValue?: Result<TData>
-): ReadableQuery<TData> {
+): ReadableQuery<TData, TVariables> {
 	const store = observableToReadable(
 		query,
 		initialValue
-	) as ReadableQuery<TData>;
+	) as ReadableQuery<TData, TVariables>;
 
 	for (const extension of extensions) {
 		store[extension] = query[extension].bind(query) as any;
