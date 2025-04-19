@@ -1,9 +1,9 @@
 {
 	"name": "@tienpvsesvelte-apollo",
 	"version": "0.5.1",
-	"author": "Tim Hall <tim.hall.engr@gmail.com>",
+	"author": "Tien Phan<good66612@gmail.com>",
 	"license": "MIT",
-	"repository": "https://github.com/timhall/svelte-apollo.git",
+	"repository": "https://github.com/tienpvse1/svelte-apollo",
 	"type": "module",
 	"main": "./dist/svelte-apollo.js",
 	"exports": {
